@@ -9,6 +9,35 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
+  
+  -- Git
+-- Fugitive
+{ "tpope/vim-fugitive",
+  cmd = { "G", "Git", "Gdiffsplit", "Gblame" },
+  -- also lazy-load on your keybindings:
+  keys = {
+    { "<leader>gs" }, { "<leader>gc" }, { "<leader>gp" },
+    { "<leader>gP" }, { "<leader>gb" }, { "<leader>gd" },
+  },
+  event = "VeryLazy",
+},
+
+-- Diffview
+{ "sindrets/diffview.nvim",
+  cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewFileHistory" },
+  keys = {
+    { "<leader>dv" }, { "<leader>dx" }, { "<leader>dh" }, { "<leader>dH" },
+  },
+  dependencies = { "nvim-lua/plenary.nvim" },
+  event = "VeryLazy",
+},
+  { "tpope/vim-rhubarb", event = "VeryLazy" }, -- GitHub :Gbrowse support
+  { "NeogitOrg/neogit", event = "VeryLazy", dependencies = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim" } },
+  { "akinsho/git-conflict.nvim", version = "*", config = true },
+  -- { "junegunn/gv.vim", cmd = { "GV", "GV!" } },
+
+
+
   -- Theme
   { "folke/tokyonight.nvim", lazy = false, priority = 1000, opts = { style = "night" } },
 
