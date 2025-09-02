@@ -35,19 +35,5 @@ map("n", "<leader>hb", function() require("gitsigns").blame_line({ full = true }
 map("n", "<leader>htb", function() require("gitsigns").toggle_current_line_blame() end, opts("Toggle blame"))
 map("n", "<leader>htd", function() require("gitsigns").toggle_deleted() end, opts("Toggle deleted"))
 
--- Fugitive (fixed)
-map("n", "<leader>gs", ":Git<CR>",          opts("Fugitive status"))
-map("n", "<leader>gc", ":Git commit<CR>",   opts("Commit"))
-map("n", "<leader>gp", ":Git push<CR>",     opts("Push"))
-map("n", "<leader>gP", ":Git pull --rebase<CR>", opts("Pull --rebase"))
-map("n", "<leader>gb", ":Gblame<CR>",       opts("Blame"))        -- Gblame exists
-map("n", "<leader>gd", ":Gdiffsplit<CR>",   opts("Diff split"))   -- Gdiffsplit exists
-
--- Diffview
-map("n", "<leader>dv", ":DiffviewOpen<CR>", opts("Diffview open"))
-map("n", "<leader>dx", ":DiffviewClose<CR>", opts("Diffview close"))
-map("n", "<leader>dh", ":DiffviewFileHistory %<CR>", opts("File history (current)"))
-map("n", "<leader>dH", ":DiffviewFileHistory<CR>", opts("Repo history"))
-
 -- Neogit
 map("n", "<leader>gn", function() require("neogit").open({ kind = "replace" }) end, opts("Open Neogit"))

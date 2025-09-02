@@ -11,31 +11,35 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
   
   -- Git
--- Fugitive
+-- plugins.lua
+
 { "tpope/vim-fugitive",
   cmd = { "G", "Git", "Gdiffsplit", "Gblame" },
-  -- also lazy-load on your keybindings:
   keys = {
-    { "<leader>gs" }, { "<leader>gc" }, { "<leader>gp" },
-    { "<leader>gP" }, { "<leader>gb" }, { "<leader>gd" },
+    { "<leader>gs", "<cmd>Git<CR>",                       desc = "Fugitive status" },
+    { "<leader>gc", "<cmd>Git commit<CR>",                desc = "Commit" },
+    { "<leader>gp", "<cmd>Git push<CR>",                  desc = "Push" },
+    { "<leader>gP", "<cmd>Git pull --rebase<CR>",         desc = "Pull --rebase" },
+    { "<leader>gb", "<cmd>Gblame<CR>",                    desc = "Blame" },
+    { "<leader>gd", "<cmd>Gdiffsplit<CR>",                desc = "Diff split" },
+    -- optional convenience:
+    { "<leader>ga", "<cmd>Git add .<CR>",                 desc = "Stage all (git add .)" },
+    { "<leader>gcm","<cmd>Git commit -m ''<Left><Left>",  desc = "Commit with message" },
   },
   event = "VeryLazy",
 },
 
--- Diffview
 { "sindrets/diffview.nvim",
   cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewFileHistory" },
   keys = {
-    { "<leader>dv" }, { "<leader>dx" }, { "<leader>dh" }, { "<leader>dH" },
+    { "<leader>dv", "<cmd>DiffviewOpen<CR>",         desc = "Diffview open" },
+    { "<leader>dx", "<cmd>DiffviewClose<CR>",        desc = "Diffview close" },
+    { "<leader>dh", "<cmd>DiffviewFileHistory %<CR>",desc = "File history (current)" },
+    { "<leader>dH", "<cmd>DiffviewFileHistory<CR>",  desc = "Repo history" },
   },
   dependencies = { "nvim-lua/plenary.nvim" },
   event = "VeryLazy",
 },
-  { "tpope/vim-rhubarb", event = "VeryLazy" }, -- GitHub :Gbrowse support
-  { "NeogitOrg/neogit", event = "VeryLazy", dependencies = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim" } },
-  { "akinsho/git-conflict.nvim", version = "*", config = true },
-  -- { "junegunn/gv.vim", cmd = { "GV", "GV!" } },
-
 
 
   -- Theme
