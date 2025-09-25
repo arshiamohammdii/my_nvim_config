@@ -1,39 +1,80 @@
--- existing quick maps
-vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Diagnostics float" })
-vim.keymap.set("n", "<leader>w", ":w<CR>", { desc = "Save" })
-vim.keymap.set("n", "<leader>q", ":q<CR>", { desc = "Quit" })
+-- =========================================
+-- Keymaps
+-- =========================================
 
--- Go: run module main (keep this whole function self-contained)
-vim.keymap.set("n", "<leader>rm", function()
+-- Helpers
+local map = vim.keymap.set
+local function nmap(lhs, rhs, desc) map("n", lhs, rhs, { noremap = true, silent = true, desc = desc }) end
+local function vmap(lhs, rhs, desc) map("v", lhs, rhs, { noremap = true, silent = true, desc = desc }) end
+
+local function imap(lhs, rhs, desc) map("i", lhs, rhs, { noremap = true, silent = true, desc = desc }) end
+
+
+
+--Insert mode golang error
+imap("<C-e>", "if err != nil {\n\t\n}<Esc>k$i", "Golang error handling")
+
+-- Copy to clipboard in visual mode
+vmap("<leader>yy", ":y+<CR>", "Copy To Clipboard")
+
+-- =========================================
+-- Quick actions
+-- =========================================
+nmap("<leader>e", vim.diagnostic.open_float, "Diagnostics float")
+nmap("<leader>ww", ":w<CR>",                  "Save")
+nmap("<leader>q", ":q<CR>",                  "Quit")
+-- nmap("<leader>qq", ":qall<CR>",                  "Quit All")
+
+nmap("<leader>yy", ":%y+<CR>", "Copy Whole File To Clipboard")
+-- =========================================
+-- Window navigation (Vim split movement)
+-- =========================================
+nmap("<leader>wh", "<C-w>h", "Move focus left")
+nmap("<leader>wl", "<C-w>l", "Move focus right")
+nmap("<leader>wj", "<C-w>j", "Move focus down")
+nmap("<leader>wk", "<C-w>k", "Move focus up")
+
+-- =========================================
+-- Go: run module main (auto-detect)
+-- =========================================
+nmap("<leader>rm", function()
   local gomod = vim.fn.systemlist("go env GOMOD")[1]
-  if not gomod or gomod == "" then return print("No go.mod found in this project.") end
+  if not gomod or gomod == "" then
+    print("No go.mod found in this project.")
+    return
+  end
   local root = vim.fn.fnamemodify(gomod, ":h")
-  local results = vim.fn.systemlist("find " .. vim.fn.shellescape(root) .. " -type f -name main.go 2>/dev/null")
-  if #results == 0 then return print("No main.go found in module.") end
+  local results = vim.fn.systemlist(
+    "find " .. vim.fn.shellescape(root) .. " -type f -name main.go 2>/dev/null"
+  )
+  if #results == 0 then
+    print("No main.go found in module.")
+    return
+  end
   local main_path = results[1]
   local cmd = "!" .. "cd " .. vim.fn.shellescape(root) .. " && go run " .. vim.fn.shellescape(main_path)
   vim.cmd(cmd)
-end, { desc = "Run Go main.go (auto-detect) from module root" })
+end, "Run Go main.go (auto-detect)")
 
--- === Git keymaps (top-level, executed on load) ===
-local map = vim.keymap.set
-local function opts(desc) return { noremap = true, silent = true, desc = desc } end
-
-----[[   ]]Gitsigns
-map("n", "]h", function() require("gitsigns").next_hunk() end, opts("Next hunk"))
-map("n", "[h", function() require("gitsigns").prev_hunk() end, opts("Prev hunk"))
-map("n", "<leader>hs", function() require("gitsigns").stage_hunk() end, opts("Stage hunk"))
-map("n", "<leader>hr", function() require("gitsigns").reset_hunk() end, opts("Reset hunk"))
-map("v", "<leader>hs", function()
+-- =========================================
+-- Git: gitsigns
+-- =========================================
+nmap("]h", function() require("gitsigns").next_hunk() end,               "Next hunk")
+nmap("[h", function() require("gitsigns").prev_hunk() end,               "Prev hunk")
+nmap("<leader>hs", function() require("gitsigns").stage_hunk() end,      "Stage hunk")
+vmap("<leader>hs", function()
   require("gitsigns").stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
-end, opts("Stage selection"))
-map("n", "<leader>hS", function() require("gitsigns").stage_buffer() end, opts("Stage buffer"))
-map("n", "<leader>hu", function() require("gitsigns").undo_stage_hunk() end, opts("Undo stage hunk"))
-map("n", "<leader>hR", function() require("gitsigns").reset_buffer() end, opts("Reset buffer"))
-map("n", "<leader>hp", function() require("gitsigns").preview_hunk() end, opts("Preview hunk"))
-map("n", "<leader>hb", function() require("gitsigns").blame_line({ full = true }) end, opts("Blame line"))
-map("n", "<leader>htb", function() require("gitsigns").toggle_current_line_blame() end, opts("Toggle blame"))
-map("n", "<leader>htd", function() require("gitsigns").toggle_deleted() end, opts("Toggle deleted"))
+end, "Stage selection")
+nmap("<leader>hS", function() require("gitsigns").stage_buffer() end,    "Stage buffer")
+nmap("<leader>hu", function() require("gitsigns").undo_stage_hunk() end, "Undo stage hunk")
+nmap("<leader>hr", function() require("gitsigns").reset_hunk() end,      "Reset hunk")
+nmap("<leader>hR", function() require("gitsigns").reset_buffer() end,    "Reset buffer")
+nmap("<leader>hp", function() require("gitsigns").preview_hunk() end,    "Preview hunk")
+nmap("<leader>hb", function() require("gitsigns").blame_line({ full = true }) end, "Blame line")
+nmap("<leader>htb", function() require("gitsigns").toggle_current_line_blame() end, "Toggle blame")
+nmap("<leader>htd", function() require("gitsigns").toggle_deleted() end, "Toggle deleted")
 
--- Neogit
-map("n", "<leader>gn", function() require("neogit").open({ kind = "replace" }) end, opts("Open Neogit"))
+-- =========================================
+-- Git: Neogit (optional UI)
+-- =========================================
+nmap("<leader>gn", function() require("neogit").open({ kind = "replace" }) end, "Open Neogit")

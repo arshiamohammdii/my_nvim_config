@@ -10,9 +10,32 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   
-  -- Git
 -- plugins.lua
 
+-- { "akinsho/bufferline.nvim", version = "*", dependencies = "nvim-tree/nvim-web-devicons",
+--   config = function()
+--     require("bufferline").setup {}
+--     vim.keymap.set("n", "<S-l>", ":BufferLineCycleNext<CR>", { desc = "Next buffer" })
+--     vim.keymap.set("n", "<S-h>", ":BufferLineCyclePrev<CR>", { desc = "Prev buffer" })
+--   end
+-- },
+
+  --harpoon 
+  { "ThePrimeagen/harpoon", branch = "harpoon2", dependencies = { "nvim-lua/plenary.nvim" },
+  config = function()
+    local harpoon = require("harpoon")
+    harpoon:setup()
+    vim.keymap.set("n", "<leader>ha", function() harpoon:list():add() end, { desc = "Harpoon add" })
+    vim.keymap.set("n", "<leader>hh", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, { desc = "Harpoon menu" })
+    vim.keymap.set("n", "<C-h>", function() harpoon:list():prev() end, { desc = "Harpoon next" })
+    vim.keymap.set("n", "<C-l>", function() harpoon:list():next() end, { desc = "Harpoon next" })
+    vim.keymap.set("n", "<C-k><C-k>", function() harpoon:list():clear() end, { desc = "Harpoon next" })
+    vim.keymap.set("n", "<C-k>", function() harpoon:list():remove() end, { desc = "Harpoon next" })
+  end
+  },
+
+
+  -- Git
 { "tpope/vim-fugitive",
   cmd = { "G", "Git", "Gdiffsplit", "Gblame" },
   keys = {
@@ -24,7 +47,7 @@ require("lazy").setup({
     { "<leader>gd", "<cmd>Gdiffsplit<CR>",                desc = "Diff split" },
     -- optional convenience:
     { "<leader>ga", "<cmd>Git add .<CR>",                 desc = "Stage all (git add .)" },
-    { "<leader>gcm","<cmd>Git commit -m ''<Left><Left>",  desc = "Commit with message" },
+    { "<leader>gcm","<cmd>Git commit -m ''<Left><Left><CR>",  desc = "Commit with message" },
   },
   event = "VeryLazy",
 },
@@ -40,8 +63,6 @@ require("lazy").setup({
   dependencies = { "nvim-lua/plenary.nvim" },
   event = "VeryLazy",
 },
-
-
   -- Theme
   { "folke/tokyonight.nvim", lazy = false, priority = 1000, opts = { style = "night" } },
 

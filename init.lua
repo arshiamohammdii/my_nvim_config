@@ -25,3 +25,6 @@ require("neotree")
 
 -- Load which-key groups
 require("whichkey")
+
+-- My Commands
+require("commands")
