@@ -9,7 +9,8 @@ local function vmap(lhs, rhs, desc) map("v", lhs, rhs, { noremap = true, silent 
 
 local function imap(lhs, rhs, desc) map("i", lhs, rhs, { noremap = true, silent = true, desc = desc }) end
 
-
+--Open netrew keymap
+nmap("<leader>ef", ":Ex<CR>",     "file explorer")
 
 --Insert mode golang error
 imap("<C-e>", "if err != nil {\n\t\n}<Esc>k$i", "Golang error handling")
@@ -23,7 +24,6 @@ vmap("<leader>yy", ":y+<CR>", "Copy To Clipboard")
 nmap("<leader>e", vim.diagnostic.open_float, "Diagnostics float")
 nmap("<leader>ww", ":w<CR>",                  "Save")
 nmap("<leader>q", ":q<CR>",                  "Quit")
--- nmap("<leader>qq", ":qall<CR>",                  "Quit All")
 
 nmap("<leader>yy", ":%y+<CR>", "Copy Whole File To Clipboard")
 -- =========================================

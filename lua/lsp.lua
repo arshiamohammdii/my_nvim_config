@@ -29,6 +29,18 @@ vim.diagnostic.config({
   float = { border = "rounded" },
 })
 
+-- As a last resort, kill any floating windows when leaving a buffer
+-- vim.api.nvim_create_autocmd("BufLeave", {
+--   callback = function()
+--     for _, win in ipairs(vim.api.nvim_list_wins()) do
+--       local cfg = vim.api.nvim_win_get_config(win)
+--       if cfg and cfg.relative ~= "" then
+--         pcall(vim.api.nvim_win_close, win, true)
+--       end
+--     end
+--   end,
+-- })
+
 -- on_attach
 local function on_attach(_, bufnr)
   local map = function(mode, lhs, rhs, desc)

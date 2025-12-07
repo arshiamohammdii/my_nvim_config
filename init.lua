@@ -20,11 +20,10 @@ require("telescope")
 -- Load Treesitter config
 require("treesitter")
 
--- Load Neo-tree config
-require("neotree")
-
 -- Load which-key groups
 require("whichkey")
 
 -- My Commands
 require("commands")
+
+require("surround")

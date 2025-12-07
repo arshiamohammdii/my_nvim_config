@@ -82,16 +82,6 @@ require("lazy").setup({
   { "MeanderingProgrammer/markdown.nvim", name = "render-markdown", ft = { "markdown" }, opts = {} },
   { "lukas-reineke/headlines.nvim", dependencies = { "nvim-treesitter/nvim-treesitter" }, ft = { "markdown" }, opts = {} },
   -- File explorer
-  {
-    "nvim-neo-tree/neo-tree.nvim",
-    branch = "v3.x",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-      "nvim-tree/nvim-web-devicons",
-    },
-    lazy = false,
-  },
 
   -- LSP ecosystem
   { "williamboman/mason.nvim" },
