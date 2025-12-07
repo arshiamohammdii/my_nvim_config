@@ -1,4 +1,10 @@
+local function trim(s)
+  return s:match("^%s*(.-)%s*$")
+end
+
 vim.keymap.set("v", "<leader>7", function ()
+
+  local visualMode = vim.fn.visualmode()
 
   local start_pos = vim.fn.getpos("v")
   local end_pos = vim.fn.getpos(".")
@@ -10,18 +16,32 @@ vim.keymap.set("v", "<leader>7", function ()
 
   print(end_row, end_col)
 
-  local text = vim.api.nvim_buf_get_text(0, start_row, start_col, end_row, end_col, {})
+  if visualMode == "v" then
+    local text = vim.api.nvim_buf_get_text(0, start_row, start_col, end_row, end_col + 1, {})
+    local surround_with = vim.fn.input("Surrond: ")
 
+    local new = {}
+    for _, line in ipairs(text) do
+      local surrounded_line = string.format("%s(%s)", surround_with, trim(line))
+      table.insert(new, surrounded_line)
+    end
 
-  local surround_with = vim.fn.input("Surrond: ")
+    vim.api.nvim_buf_set_text(0, start_row, start_col, end_row, end_col + 1, new)
 
-  local new = {}
-  for _, line in ipairs(text) do
-    local surrounded_line = string.format("%s(%s)", surround_with, line)
-    table.insert(new, surrounded_line)
+  elseif visualMode == "V" then
+
+    local text = vim.api.nvim_buf_get_lines(0, start_row, end_row + 1, false)
+    local surround_with = vim.fn.input("Surrond: ")
+
+    local new = {}
+    for _, line in ipairs(text) do
+      local surrounded_line = string.format("%s(%s)", surround_with, trim(line))
+      table.insert(new, surrounded_line)
+    end
+
+    vim.api.nvim_buf_set_lines(0, start_row, end_row + 1, false, new)
   end
 
-  vim.api.nvim_buf_set_text(0, start_row, start_col, end_row, end_col, new)
 
 
   local key = vim.api.nvim_replace_termcodes("<Esc>", true, false, true)
