@@ -50,5 +50,3 @@ vim.keymap.set("v", "<leader>7", function ()
 print("It worked!")
 
 end)
-
-

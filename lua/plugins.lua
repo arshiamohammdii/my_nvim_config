@@ -105,4 +105,4 @@ vim.cmd.colorscheme("tokyonight")
 require("lualine").setup({ options = { theme = "auto" } })
 
 -- gitsigns
-require("gitsigns").setup(
+require("gitsigns").setup()
