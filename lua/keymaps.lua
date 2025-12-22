@@ -77,4 +77,41 @@ nmap("<leader>htd", function() require("gitsigns").toggle_deleted() end, "Toggle
 -- =========================================
 -- Git: Neogit (optional UI)
 -- =========================================
-nmap("<leader>gn", function() require("neogit").open({ kind = "replace" }) end, "Open Neogit")
+-- nmap("<leader>gn", function() require("neogit").open({ kind = "replace" }) end, "Open Neogit")
+
+
+-- =========================================
+-- code action
+-- =========================================
+vim.keymap.set("n", "<leader>ca", function()
+  vim.lsp.buf.code_action({
+    context = { diagnostics = vim.diagnostic.get(0) }
+  })
+end, { desc = "Code Action (force diagnostics)" })
+
+-- =========================================
+-- go to definition
+-- =========================================
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "qf",
+  callback = function()
+    vim.keymap.set("n", "<CR>", "<CR>:cclose<CR>", { buffer = true })
+  end,
+})
+
+local function go_to_definition()
+
+  vim.lsp.buf.definition({ on_list = function(items)
+    if not items then
+      vim.notify("no definitions found")
+    end
+    vim.fn.setqflist({}, " ", items)
+    vim.cmd("copen")
+  end
+  })
+end
+
+vim.keymap.set("n", "<leader>g;", go_to_definition, {desc = "Go to definition"})
+vim.keymap.set("n", "]q", ":cnext<CR>", { desc = "Next quickfix" })
+vim.keymap.set("n", "[q", ":cprev<CR>", { desc = "Prev quickfix" })
+
