@@ -30,7 +30,7 @@ require("lazy").setup({
     vim.keymap.set("n", "<C-h>", function() harpoon:list():prev() end, { desc = "Harpoon next" })
     vim.keymap.set("n", "<C-l>", function() harpoon:list():next() end, { desc = "Harpoon next" })
     vim.keymap.set("n", "<C-k><C-k>", function() harpoon:list():clear() end, { desc = "Harpoon next" })
-    vim.keymap.set("n", "<C-k>", function() harpoon:list():remove() end, { desc = "Harpoon next" })
+    -- vim.keymap.set("n", "<C-k>", function() harpoon:list():remove() end, { desc = "Harpoon next" })
   end
   },
 

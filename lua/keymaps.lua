@@ -10,7 +10,7 @@ local function vmap(lhs, rhs, desc) map("v", lhs, rhs, { noremap = true, silent 
 local function imap(lhs, rhs, desc) map("i", lhs, rhs, { noremap = true, silent = true, desc = desc }) end
 
 --Open netrew keymap
-nmap("<leader>ef", ":Ex<CR>",     "file explorer")
+nmap("<leader>ef", ":Ex<CR>","file explorer")
 
 --Insert mode golang error
 imap("<C-e>", "if err != nil {\n\t\n}<Esc>k$i", "Golang error handling")
@@ -21,7 +21,7 @@ vmap("<leader>yy", ":y+<CR>", "Copy To Clipboard")
 -- =========================================
 -- Quick actions
 -- =========================================
-nmap("<leader>e", vim.diagnostic.open_float, "Diagnostics float")
+nmap("<leader>ed", vim.diagnostic.open_float, "Diagnostics float")
 nmap("<leader>ww", ":w<CR>",                  "Save")
 nmap("<leader>q", ":q<CR>",                  "Quit")
 
@@ -112,6 +112,6 @@ local function go_to_definition()
 end
 
 vim.keymap.set("n", "<leader>g;", go_to_definition, {desc = "Go to definition"})
-vim.keymap.set("n", "]q", ":cnext<CR>", { desc = "Next quickfix" })
-vim.keymap.set("n", "[q", ":cprev<CR>", { desc = "Prev quickfix" })
+vim.keymap.set("n", "<C-[>", ":cnext<CR>", { desc = "Next quickfix" })
+vim.keymap.set("n", "<C-]>", ":cprev<CR>", { desc = "Prev quickfix" })
 

@@ -14,12 +14,12 @@ opt.splitbelow = true
 opt.splitright = true
 opt.updatetime = 200
 opt.signcolumn = "yes"
-vim.opt.incsearch = true   -- highlight while typing search
-vim.opt.hlsearch = false   -- don't keep highlights after
+vim.opt.incsearch = true -- highlight while typing search
+vim.opt.hlsearch = false -- don't keep highlights after
 
 -- Autoformat Go files before saving
 vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*.go",
+  pattern = { "*.go", "*.py", "*.lua" },
   callback = function()
     vim.lsp.buf.format({ async = false })
   end,
@@ -27,8 +27,8 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 
 -- Show diagnostics automatically on hover
 vim.o.updatetime = 250
-vim.api.nvim_create_autocmd("CursorHold", {
-  callback = function()
-    vim.diagnostic.open_float(nil, { focus = false })
-  end,
-})
+-- vim.api.nvim_create_autocmd("CursorHold", {
+--   callback = function()
+--     vim.diagnostic.open_float(nil, { focus = false })
+--   end,
+-- })
